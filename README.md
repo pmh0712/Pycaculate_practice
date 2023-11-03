@@ -9,6 +9,4 @@
 
 * pyqt5 묘듈 설치 (python -m pip install  pyqt5)
 * 파이썬 파일 실행(python caculator_main.py)
-
-##참고자료
-*https://studyingrabbit.tistory.com/23 이 링크에 있는 코드를 참고하여 제작하였습니다.
+* *https://studyingrabbit.tistory.com/23 이 링크에 있는 코드를 참고하여 제작하였습니다.
