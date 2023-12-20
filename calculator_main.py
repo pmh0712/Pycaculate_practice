@@ -38,7 +38,7 @@ class Main(QDialog):
         button_inversion.clicked.connect(self.button_inversion_clicked)
         button_mod.clicked.connect(lambda state, operation = "%": self.button_operation_clicked(operation))
         button_squar.clicked.connect(self.button_squar_clicked)
-        # button_root.clicked.connect(lambda state, operation = "/": self.button_operation_clicked(operation))
+        button_root.clicked.connect(self.button_root_clicked)
 
         ### 사칙연산 버튼을 layout_operation 레이아웃에 추가
         layout_button.addWidget(button_plus, 4, 3)
@@ -177,10 +177,17 @@ class Main(QDialog):
         except:
              self.screen_output.setText("")
 
-    # def button_root_clicked(self):
-    #     equation = self.screen_output.text()
-    #     equation = equation[:-1]
-    #     self.screen_output.setText(equation)
+    def button_root_clicked(self):
+        equation = self.screen_output.text()
+        try:
+           number = float(equation)
+           number = number**(1/2)
+           output = str(number)
+           self.screen_output.setText(output)
+
+        except:
+             self.screen_output.setText("")
+        
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
