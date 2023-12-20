@@ -106,6 +106,8 @@ class Main(QDialog):
         equation = self.screen_output.text()
         if equation == "0":
             self.screen_output.setText(str(num))
+        elif num == 0:
+            pass
         elif equation=="" and num==".":
             pass
         else:
