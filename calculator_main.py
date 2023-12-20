@@ -1,4 +1,5 @@
 import sys
+import math
 from PyQt5.QtWidgets import *
 
 class Main(QDialog):
@@ -34,6 +35,10 @@ class Main(QDialog):
         button_minus.clicked.connect(lambda state, operation = "-": self.button_operation_clicked(operation))
         button_product.clicked.connect(lambda state, operation = "*": self.button_operation_clicked(operation))
         button_division.clicked.connect(lambda state, operation = "/": self.button_operation_clicked(operation))
+        button_inversion.clicked.connect(self.button_inversion_clicked)
+        button_mod.clicked.connect(lambda state, operation = "%": self.button_operation_clicked(operation))
+        button_squar.clicked.connect(self.button_squar_clicked)
+        button_root.clicked.connect(self.button_root_clicked)
 
         ### 사칙연산 버튼을 layout_operation 레이아웃에 추가
         layout_button.addWidget(button_plus, 4, 3)
@@ -55,6 +60,7 @@ class Main(QDialog):
         ### =, clear, backspace 버튼 클릭 시 시그널 설정
         button_equal.clicked.connect(self.button_equal_clicked)
         button_clear.clicked.connect(self.button_clear_clicked)
+        button_CE.clicked.connect(self.button_clear_clicked)
         button_backspace.clicked.connect(self.button_backspace_clicked)
 
         ### =, clear, backspace 버튼을 layout_clear_equal 레이아웃에 추가
@@ -98,26 +104,92 @@ class Main(QDialog):
     #################
     def number_button_clicked(self, num):
         equation = self.screen_output.text()
-        equation += str(num)
-        self.screen_output.setText(equation)
+        if equation == "0":
+            self.screen_output.setText(str(num))
+        elif num == 0:
+            pass
+        elif equation=="" and num==".":
+            pass
+        else:
+            equation += str(num)
+            self.screen_output.setText(equation)
 
     def button_operation_clicked(self, operation):
         equation = self.screen_output.text()
-        equation += operation
-        self.screen_output.setText(equation)
+        if equation=="":
+            pass
+        else:
+            equation += operation
+            self.screen_output.setText(equation)
 
     def button_equal_clicked(self):
         equation = self.screen_output.text()
-        solution = eval(equation)
-        self.screen_output.setText(str(solution))
+        op=""
+        op_index=0
+
+        for i in equation:
+            if i == "+" or i == "-" or i == "*" or i == "/" or i == "%":
+                op=i
+                break
+            op_index += 1
+
+        num1=equation[0:op_index]
+        num2=equation[op_index+1:]
+
+        if op=="+":
+            output=float(num1)+float(num2)
+        elif op=="-":
+            output=float(num1)-float(num2)
+        elif op=="*":
+            output=float(num1)*float(num2)
+        elif op=="/":
+            output=float(num1)/float(num2)
+        elif op=="%":
+            output=int(num1)%int(num2)
+
+        self.screen_output.setText(str(output))
 
     def button_clear_clicked(self):
-        self.screen_output.setText("")
+        self.screen_output.setText("0")
 
     def button_backspace_clicked(self):
         equation = self.screen_output.text()
         equation = equation[:-1]
         self.screen_output.setText(equation)
+
+    def button_inversion_clicked(self):
+        equation = self.screen_output.text()
+        try:
+           number = float(equation)
+           number = 1 / number
+           output = str(number)
+           self.screen_output.setText(output)
+
+        except:
+             self.screen_output.setText("")
+
+    def button_squar_clicked(self):
+        equation = self.screen_output.text()
+        try:
+           number = float(equation)
+           number = number*number
+           output = str(number)
+           self.screen_output.setText(output)
+
+        except:
+             self.screen_output.setText("")
+
+    def button_root_clicked(self):
+        equation = self.screen_output.text()
+        try:
+           number = float(equation)
+           number = number**(1/2)
+           output = str(number)
+           self.screen_output.setText(output)
+
+        except:
+             self.screen_output.setText("")
+        
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
